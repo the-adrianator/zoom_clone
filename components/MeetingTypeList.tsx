@@ -6,7 +6,7 @@ import HomeCard from "./HomeCard";
 import { useRouter } from "next/navigation";
 import MeetingModal from "./MeetingModal";
 import { useUser } from "@clerk/nextjs";
-import { type Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
+import { type Call, useStreamVideoClient, useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "./ui/textarea";
 import ReactDatePicker from "react-datepicker";
@@ -23,6 +23,10 @@ const MeetingTypeList = () => {
     link: "",
   });
   const [callDetails, setCallDetails] = useState<Call>();
+  const { useCallCallingState, useParticipants, useParticipantCount } = useCallStateHooks();
+  const callingState = useCallCallingState();
+  const participants = useParticipants();
+  const participantCount = useParticipantCount();
 
   const { toast } = useToast();
   const { user } = useUser();
@@ -35,7 +39,8 @@ const MeetingTypeList = () => {
         toast({ title: "Please select a date and time" });
         return;
       }
-      const id = crypto.randomUUID();
+      const id = crypto.randomUUID(); // micros table id
+      // get user data + attending_micros, attend_type, user type (tech team, talent, candidate)
       const call = client.call("default", id);
 
       if (!call) throw new Error("Failed to create call");
@@ -44,12 +49,14 @@ const MeetingTypeList = () => {
         values.dateTime.toISOString() || new Date(Date.now()).toISOString();
       const description = values.description || "Instant meeting";
 
+
       await call.getOrCreate({
         data: {
           starts_at: startsAt,
           custom: {
             description,
           },
+          members: [{ user_id: 'alice', role: 'admin' }, { user_id: 'bob' }],
         },
       });
 
