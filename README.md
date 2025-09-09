@@ -1,6 +1,6 @@
-## Yoom — Video Conferencing App (Zoom‑style)
+## Xoom — Video Conferencing App (Zoom‑style)
 
-Yoom is a Zoom‑style video conferencing web app built with Next.js 14 and Stream's Video SDK. It supports secure authentication with Clerk, scheduling and joining meetings (including a personal room), and a modern in‑call experience with multiple layouts, device controls, participant list, and call stats.
+Xoom is a Zoom‑style video conferencing web app built with Next.js 14 and Stream's Video SDK. It supports secure authentication with Clerk, scheduling and joining meetings (including a personal room), and a modern in‑call experience with multiple layouts, device controls, participant list, and call stats.
 
 Live features implemented in this repo are focused on client and server integration with Stream for real‑time video, plus a clean UI using Tailwind CSS and shadcn/ui (Radix primitives).
 
